@@ -1,0 +1,36 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from FeedServiceService WSDL service -->
+
+  <service name="FeedService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://webService"/>
+      <parameter name="wsdlServiceElement" value="FeedServiceService"/>
+      <parameter name="schemaQualified" value="http://webService"/>
+      <parameter name="wsdlServicePort" value="FeedService"/>
+      <parameter name="className" value="webService.FeedServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="FeedService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="login" qname="operNS:login" xmlns:operNS="http://webService" returnQName="retNS:loginReturn" xmlns:retNS="http://webService" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:username" xmlns:pns="http://webService" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:password" xmlns:pns="http://webService" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="signup" qname="operNS:signup" xmlns:operNS="http://webService" returnQName="retNS:signupReturn" xmlns:retNS="http://webService" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:username" xmlns:pns="http://webService" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:first_name" xmlns:pns="http://webService" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:last_name" xmlns:pns="http://webService" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:mail" xmlns:pns="http://webService" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="login signup"/>
+
+  </service>
+</deployment>
