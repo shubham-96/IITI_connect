@@ -20,7 +20,26 @@
         <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:last_name" type="tns:string"/>
         <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:mail" type="tns:string"/>
       </operation>
-      <parameter name="allowedMethods" value="login signup"/>
+      <operation xmlns:operNS="http://webService" xmlns:retNS="http://webService" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="forgotpassword" qname="operNS:forgotpassword" returnQName="retNS:forgotpasswordReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:entity" type="tns:string"/>
+        <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:value" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://webService" xmlns:retNS="http://webService" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="changepassword" qname="operNS:changepassword" returnQName="retNS:changepasswordReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:Reg_id" type="tns:int"/>
+        <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:oldpass" type="tns:string"/>
+        <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:newpass" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://webService" xmlns:retNS="http://webService" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="changedp" qname="operNS:changedp" returnQName="retNS:changedpReturn" returnType="rtns:boolean" soapAction="">
+        <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:Reg_id" type="tns:int"/>
+        <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:x" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://webService" xmlns:retNS="http://webService" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getdp" qname="operNS:getdp" returnQName="retNS:getdpReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:Reg_id" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://webService" xmlns:retNS="http://webService" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="getuser" qname="operNS:getuser" returnQName="retNS:getuserReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://webService" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:Reg_id" type="tns:int"/>
+      </operation>
+      <parameter name="allowedMethods" value="getdp changepassword forgotpassword getuser login changedp signup"/>
 
   </service>
 </deployment>

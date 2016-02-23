@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="/root/Downloads/mail.jar"/>
 	<classpathentry kind="lib" path="/root/Downloads/activation.jar"/>
 	<classpathentry kind="lib" path="/root/Documents/uml.jar"/>
+	<classpathentry kind="lib" path="/root/Downloads/gson-2.2.4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -36,16 +36,82 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
+   <element name="forgotpassword">
+    <complexType>
+     <sequence>
+      <element name="entity" type="xsd:string"/>
+      <element name="value" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="forgotpasswordResponse">
+    <complexType>
+     <sequence>
+      <element name="forgotpasswordReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changepassword">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+      <element name="oldpass" type="xsd:string"/>
+      <element name="newpass" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changepasswordResponse">
+    <complexType>
+     <sequence>
+      <element name="changepasswordReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changedp">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+      <element name="x" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changedpResponse">
+    <complexType>
+     <sequence>
+      <element name="changedpReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getdp">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getdpResponse">
+    <complexType>
+     <sequence>
+      <element name="getdpReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getuser">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getuserResponse">
+    <complexType>
+     <sequence>
+      <element name="getuserReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
   </schema>
  </wsdl:types>
-
-   <wsdl:message name="loginResponse">
-
-      <wsdl:part element="impl:loginResponse" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
 
    <wsdl:message name="loginRequest">
 
@@ -66,6 +132,94 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <wsdl:message name="signupRequest">
 
       <wsdl:part element="impl:signup" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getdpResponse">
+
+      <wsdl:part element="impl:getdpResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changedpRequest">
+
+      <wsdl:part element="impl:changedp" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changepasswordResponse">
+
+      <wsdl:part element="impl:changepasswordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getuserResponse">
+
+      <wsdl:part element="impl:getuserResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="forgotpasswordResponse">
+
+      <wsdl:part element="impl:forgotpasswordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getdpRequest">
+
+      <wsdl:part element="impl:getdp" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="loginResponse">
+
+      <wsdl:part element="impl:loginResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="forgotpasswordRequest">
+
+      <wsdl:part element="impl:forgotpassword" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changedpResponse">
+
+      <wsdl:part element="impl:changedpResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getuserRequest">
+
+      <wsdl:part element="impl:getuser" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changepasswordRequest">
+
+      <wsdl:part element="impl:changepassword" name="parameters">
 
       </wsdl:part>
 
@@ -92,6 +246,66 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:signupResponse" name="signupResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="forgotpassword">
+
+         <wsdl:input message="impl:forgotpasswordRequest" name="forgotpasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:forgotpasswordResponse" name="forgotpasswordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changepassword">
+
+         <wsdl:input message="impl:changepasswordRequest" name="changepasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:changepasswordResponse" name="changepasswordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changedp">
+
+         <wsdl:input message="impl:changedpRequest" name="changedpRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:changedpResponse" name="changedpResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getdp">
+
+         <wsdl:input message="impl:getdpRequest" name="getdpRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getdpResponse" name="getdpResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getuser">
+
+         <wsdl:input message="impl:getuserRequest" name="getuserRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getuserResponse" name="getuserResponse">
 
        </wsdl:output>
 
@@ -132,6 +346,96 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="signupResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="forgotpassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="forgotpasswordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="forgotpasswordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changepassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="changepasswordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="changepasswordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changedp">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="changedpRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="changedpResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getdp">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getdpRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getdpResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getuser">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getuserRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getuserResponse">
 
             <wsdlsoap:body use="literal"/>
 

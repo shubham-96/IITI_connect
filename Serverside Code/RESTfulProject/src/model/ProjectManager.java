@@ -17,10 +17,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import dao.Database;
-
-import dao.Project;
-import dto.User;
+import com.database.connections.Database;
+import com.database.connections.Project;
+import com.datastructures.User;
 public class ProjectManager {
 	
 	public static String generatepasswd(){
@@ -35,7 +34,7 @@ public class ProjectManager {
 	    Connection connection;
 		try {
 			connection = database.Get_Connection();
-			System.out.println(checkusername(connection,""));
+			System.out.println(checkusername(connection,"kalyan"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,7 +43,7 @@ public class ProjectManager {
 		
 	}
 	
-	public static String email(String mail,String pwd){
+	public static String email(String mail,String pwd,String message,String username){
 		final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 		  // Get a Properties object
 		     Properties props = System.getProperties();
@@ -57,14 +56,14 @@ public class ProjectManager {
 		     props.put("mail.debug", "true");
 		     props.put("mail.store.protocol", "pop3");
 		     props.put("mail.transport.protocol", "smtp");
-		     final String m = "iiticonnect@gmail.com";//
+		     final String port = "iiticonnect@gmail.com";
 		     
 		     final char[] portSequence = {105,111,112,108,107,108,112,111,105};
 		     try{
 		     Session session = Session.getDefaultInstance(props, 
 		                          new Authenticator(){
 		                             protected PasswordAuthentication getPasswordAuthentication() {
-		                                return new PasswordAuthentication(m, new String(portSequence));
+		                                return new PasswordAuthentication(port, new String(portSequence));
 		                             }});
 
 		   // -- Create a new message --
@@ -74,10 +73,17 @@ public class ProjectManager {
 		     msg.setFrom(new InternetAddress("iiticonnect@gmail.com"));
 		     msg.setRecipients(Message.RecipientType.TO, 
 		                      InternetAddress.parse(mail+"@iiti.ac.in",false));
-		     msg.setSubject("Confirmation");
-		     msg.setText("This is a conirmation mail for signing up at IITI connect android app\n"
-		     		+ "	Your password is "+pwd+"\n\n"
-		     				+ "If you did not try to signup for IITI Connect , please ignore this email");
+		     if(message.equals("confirmation")){
+		    	 msg.setSubject("Confirmation");
+			     msg.setText("Hi "+username+",\n\tThis is a conirmation mail for signing up at IITI connect android app\n"
+			     		+ "	Your password is "+pwd+"\n\n"
+			     				+ "If you did not try to signup for IITI Connect , please ignore this email");
+		     }else if(message.equals("forgotpassword")){
+		    	 msg.setSubject("Forgot password ");
+			     msg.setText("Hi "+username+",\n\tThis is reply for using forgot password service at IITI connect android app\n"
+			     		+ "	Your password is "+pwd+"\nIt is highly adviced to delete this mail or change the password after using this\n"
+			     				+ "Have a nice day");
+		     }
 		     msg.setSentDate(new Date(0));
 		     Transport.send(msg);
 		     System.out.println("Message sent.");
@@ -89,11 +95,12 @@ public class ProjectManager {
 	public static boolean checkusername(Connection connection,String username){
 		PreparedStatement ps;
 		try {
-			ps = connection.prepareStatement("SELECT username from User where username= "+"\""+username+"\"");
+			ps = connection.prepareStatement("SELECT username from User where username= "+"\'"+username+"\'");
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			String un = rs.getString("username");
-			if(un.equals(username))
+			System.out.println(""+un+"--"+username);
+			if(un.equalsIgnoreCase(username))
 				return false;
 			else
 				return true;
@@ -107,7 +114,7 @@ public class ProjectManager {
 	public static boolean checkmail(Connection connection,String mail){
 		PreparedStatement ps;
 		try {
-			ps = connection.prepareStatement("SELECT Mail from User where Mail= "+"\""+mail+"\"");
+			ps = connection.prepareStatement("SELECT Mail from User where Mail= "+"\'"+mail+"\'");
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			String un = rs.getString("Mail");
@@ -122,4 +129,6 @@ public class ProjectManager {
 			return true;
 		}
 	}
+
+	
 }

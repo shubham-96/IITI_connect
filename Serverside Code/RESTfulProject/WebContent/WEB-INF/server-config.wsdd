@@ -33,7 +33,26 @@
    <ns1:parameter qname="ns2:last_name" type="xsd:string"/>
    <ns1:parameter qname="ns2:mail" type="xsd:string"/>
   </ns1:operation>
-  <ns1:parameter name="allowedMethods" value="login signup"/>
+  <ns1:operation name="forgotpassword" qname="ns3:forgotpassword" returnQName="ns3:forgotpasswordReturn" returnType="xsd:string" soapAction="" xmlns:ns3="http://webService" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns3:entity" type="xsd:string"/>
+   <ns1:parameter qname="ns3:value" type="xsd:string"/>
+  </ns1:operation>
+  <ns1:operation name="changepassword" qname="ns4:changepassword" returnQName="ns4:changepasswordReturn" returnType="xsd:string" soapAction="" xmlns:ns4="http://webService" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns4:Reg_id" type="xsd:int"/>
+   <ns1:parameter qname="ns4:oldpass" type="xsd:string"/>
+   <ns1:parameter qname="ns4:newpass" type="xsd:string"/>
+  </ns1:operation>
+  <ns1:operation name="changedp" qname="ns5:changedp" returnQName="ns5:changedpReturn" returnType="xsd:boolean" soapAction="" xmlns:ns5="http://webService" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns5:Reg_id" type="xsd:int"/>
+   <ns1:parameter qname="ns5:x" type="xsd:string"/>
+  </ns1:operation>
+  <ns1:operation name="getdp" qname="ns6:getdp" returnQName="ns6:getdpReturn" returnType="xsd:string" soapAction="" xmlns:ns6="http://webService" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns6:Reg_id" type="xsd:int"/>
+  </ns1:operation>
+  <ns1:operation name="getuser" qname="ns7:getuser" returnQName="ns7:getuserReturn" returnType="xsd:string" soapAction="" xmlns:ns7="http://webService" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter qname="ns7:Reg_id" type="xsd:int"/>
+  </ns1:operation>
+  <ns1:parameter name="allowedMethods" value="getdp changepassword forgotpassword getuser login changedp signup"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="FeedService"/>
   <ns1:parameter name="className" value="webService.FeedService"/>
