@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://webService" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://webService" xmlns:intf="http://webService" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://webService" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="signup">
+    <complexType>
+     <sequence>
+      <element name="username" type="xsd:string"/>
+      <element name="first_name" type="xsd:string"/>
+      <element name="last_name" type="xsd:string"/>
+      <element name="mail" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="signupResponse">
+    <complexType>
+     <sequence>
+      <element name="signupReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="login">
+    <complexType>
+     <sequence>
+      <element name="username" type="xsd:string"/>
+      <element name="password" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="loginResponse">
+    <complexType>
+     <sequence>
+      <element name="loginReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="forgotpassword">
+    <complexType>
+     <sequence>
+      <element name="entity" type="xsd:string"/>
+      <element name="value" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="forgotpasswordResponse">
+    <complexType>
+     <sequence>
+      <element name="forgotpasswordReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changepassword">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+      <element name="oldpass" type="xsd:string"/>
+      <element name="newpass" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changepasswordResponse">
+    <complexType>
+     <sequence>
+      <element name="changepasswordReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changedp">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+      <element name="x" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changedpResponse">
+    <complexType>
+     <sequence>
+      <element name="changedpReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setWarning">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+      <element name="Message" type="xsd:string"/>
+      <element name="type" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setWarningResponse">
+    <complexType>
+     <sequence>
+      <element name="setWarningReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getWarning">
+    <complexType/>
+   </element>
+   <element name="getWarningResponse">
+    <complexType>
+     <sequence>
+      <element name="getWarningReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getdp">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getdpResponse">
+    <complexType>
+     <sequence>
+      <element name="getdpReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getuser">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getuserResponse">
+    <complexType>
+     <sequence>
+      <element name="getuserReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="isWarnignGenerated">
+    <complexType/>
+   </element>
+   <element name="isWarnignGeneratedResponse">
+    <complexType>
+     <sequence>
+      <element name="isWarnignGeneratedReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="clearWarning">
+    <complexType/>
+   </element>
+   <element name="clearWarningResponse">
+    <complexType/>
+   </element>
+   <element name="changeStatus">
+    <complexType>
+     <sequence>
+      <element name="reg_id" type="xsd:int"/>
+      <element name="status" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changeStatusResponse">
+    <complexType>
+     <sequence>
+      <element name="changeStatusReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="clearWarningRequest">
+
+      <wsdl:part element="impl:clearWarning" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isWarnignGeneratedRequest">
+
+      <wsdl:part element="impl:isWarnignGenerated" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getWarningResponse">
+
+      <wsdl:part element="impl:getWarningResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isWarnignGeneratedResponse">
+
+      <wsdl:part element="impl:isWarnignGeneratedResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="loginRequest">
+
+      <wsdl:part element="impl:login" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="signupResponse">
+
+      <wsdl:part element="impl:signupResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changeStatusResponse">
+
+      <wsdl:part element="impl:changeStatusResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="signupRequest">
+
+      <wsdl:part element="impl:signup" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changeStatusRequest">
+
+      <wsdl:part element="impl:changeStatus" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="clearWarningResponse">
+
+      <wsdl:part element="impl:clearWarningResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getdpResponse">
+
+      <wsdl:part element="impl:getdpResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changedpRequest">
+
+      <wsdl:part element="impl:changedp" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changepasswordResponse">
+
+      <wsdl:part element="impl:changepasswordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getuserResponse">
+
+      <wsdl:part element="impl:getuserResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getdpRequest">
+
+      <wsdl:part element="impl:getdp" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="forgotpasswordResponse">
+
+      <wsdl:part element="impl:forgotpasswordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setWarningResponse">
+
+      <wsdl:part element="impl:setWarningResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getWarningRequest">
+
+      <wsdl:part element="impl:getWarning" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="loginResponse">
+
+      <wsdl:part element="impl:loginResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="forgotpasswordRequest">
+
+      <wsdl:part element="impl:forgotpassword" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changedpResponse">
+
+      <wsdl:part element="impl:changedpResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setWarningRequest">
+
+      <wsdl:part element="impl:setWarning" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getuserRequest">
+
+      <wsdl:part element="impl:getuser" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changepasswordRequest">
+
+      <wsdl:part element="impl:changepassword" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="FeedService">
+
+      <wsdl:operation name="signup">
+
+         <wsdl:input message="impl:signupRequest" name="signupRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:signupResponse" name="signupResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="login">
+
+         <wsdl:input message="impl:loginRequest" name="loginRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:loginResponse" name="loginResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="forgotpassword">
+
+         <wsdl:input message="impl:forgotpasswordRequest" name="forgotpasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:forgotpasswordResponse" name="forgotpasswordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changepassword">
+
+         <wsdl:input message="impl:changepasswordRequest" name="changepasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:changepasswordResponse" name="changepasswordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changedp">
+
+         <wsdl:input message="impl:changedpRequest" name="changedpRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:changedpResponse" name="changedpResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setWarning">
+
+         <wsdl:input message="impl:setWarningRequest" name="setWarningRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setWarningResponse" name="setWarningResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getWarning">
+
+         <wsdl:input message="impl:getWarningRequest" name="getWarningRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getWarningResponse" name="getWarningResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getdp">
+
+         <wsdl:input message="impl:getdpRequest" name="getdpRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getdpResponse" name="getdpResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getuser">
+
+         <wsdl:input message="impl:getuserRequest" name="getuserRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getuserResponse" name="getuserResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isWarnignGenerated">
+
+         <wsdl:input message="impl:isWarnignGeneratedRequest" name="isWarnignGeneratedRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:isWarnignGeneratedResponse" name="isWarnignGeneratedResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="clearWarning">
+
+         <wsdl:input message="impl:clearWarningRequest" name="clearWarningRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:clearWarningResponse" name="clearWarningResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changeStatus">
+
+         <wsdl:input message="impl:changeStatusRequest" name="changeStatusRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:changeStatusResponse" name="changeStatusResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="FeedServiceSoapBinding" type="impl:FeedService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="signup">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="signupRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="signupResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="login">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="loginRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="loginResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="forgotpassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="forgotpasswordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="forgotpasswordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changepassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="changepasswordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="changepasswordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changedp">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="changedpRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="changedpResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setWarning">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setWarningRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setWarningResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getWarning">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getWarningRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getWarningResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getdp">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getdpRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getdpResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getuser">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getuserRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getuserResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="isWarnignGenerated">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="isWarnignGeneratedRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="isWarnignGeneratedResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="clearWarning">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="clearWarningRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="clearWarningResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changeStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="changeStatusRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="changeStatusResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="FeedServiceService">
+
+      <wsdl:port binding="impl:FeedServiceSoapBinding" name="FeedService">
+
+         <wsdlsoap:address location="http://localhost/RESTfulProject/services/FeedService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
