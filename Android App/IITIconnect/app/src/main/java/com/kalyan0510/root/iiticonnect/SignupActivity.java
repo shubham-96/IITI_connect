@@ -23,7 +23,7 @@ public class SignupActivity extends AppCompatActivity {
         firstName= (EditText)findViewById(R.id.fn);
         lastName= (EditText)findViewById(R.id.ln);
         username= (EditText)findViewById(R.id.un);
-        mail= (EditText)findViewById(R.id.mail);
+        mail= (EditText)findViewById(R.id.mailTv);
         tnc = (CheckBox)findViewById(R.id.tc);
         submit = (Button)findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +37,7 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this, "Dont leave boxes empty", Toast.LENGTH_SHORT).show();
                 }
                 else if(!tnc.isChecked()){
-                    Toast.makeText(SignupActivity.this, "Agree to the terms and conditions", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Agree to the terms and conditions ", Toast.LENGTH_SHORT).show();
                 }else {
                     Utilities.signup(getApplicationContext(),fn,ln,un,m);
                 }

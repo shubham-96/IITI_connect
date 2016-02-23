@@ -38,6 +38,8 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         ((RelativeLayout)findViewById(R.id.rl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,17 +47,27 @@ public class MainActivity extends Activity {
                 int reg_id = sp.getInt(Utilities.SharesPresfKeys.regid, 0);
                 if (reg_id == 0) {
                     //open signup or login page activity
-                    Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
 
                 } else {
                     //open Home
-                    Toast.makeText(MainActivity.this, "Overriding sp" + reg_id, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+                    Toast.makeText(MainActivity.this, "HOME HOME HOME " + reg_id, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
+
+
             }
         });
+        (findViewById(R.id.logo)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
     }
