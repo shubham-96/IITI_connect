@@ -13,8 +13,6 @@ import android.util.Base64;
 import android.widget.Toast;
 
 import org.ksoap2.SoapEnvelope;
-import org.ksoap2.serialization.MarshalBase64;
-import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
@@ -24,22 +22,16 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-/**
- * Created by root on 20/2/16.
- */
 public class Utilities {
     public static Context context;
 
 
-
-    //  public static int r_id;
-   // public static Uri img_uri;
     public class connection{
         public static final String NAMESPACE = "http://webService";
         public static final String exs="/RESTfulProject/services/FeedService?wsdl";
         public static final String SOAP_PREFIX = "/";
         public static  final String url= "http://192.168.";
-        public static final String x = "1.5";
+        public static final String x = "1.7";
         public class method_names{
             public static final String signup = "signup";
             public static final String login = "login";
@@ -50,12 +42,7 @@ public class Utilities {
         }
 
     }
-    public static class IMGARRAY{
-        byte[] pic;
-        IMGARRAY(byte[] array){
-            pic=array;
-        }
-    }
+    public static User currentUser = new User();
     public class SharesPresfKeys{
         public static final String key = "xmotiv0510";
         public static final String regid = "reg_id";
@@ -73,11 +60,7 @@ public class Utilities {
         new Signuptask().execute(fn,ln,un,mail);
 
     }
-    public static void login(Context c,String username,String password){
-        context  = c;
-        new logintask().execute(username, password);
 
-    }
     public static void setprofilepic(Context c, int regid, Uri selectedimgURI){
         context  = c;
          new setprofilepictask().execute(selectedimgURI);

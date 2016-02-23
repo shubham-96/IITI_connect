@@ -1,14 +1,14 @@
 package webService;
 
 import java.sql.Connection;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-
-import org.apache.axis.encoding.Base64;
 
 import com.database.connections.Database;
 import com.database.connections.Project;
 import com.datastructures.User;
+import com.datastructures.Warning;
 import com.google.gson.Gson;
 
 import model.ProjectManager;
@@ -148,8 +148,67 @@ public class FeedService {
 			return "";
 	}
 	
-	
-	
+	@GET
+	@Path("/GetFeeds")
+	public String setWarning(int Reg_id,String Message,String type){
 		
+		
+		
+		Database database= new Database();
+	    Connection connection;
+		try {
+			
+			connection = database.Get_Connection();
+			System.out.println("Warning set");
+			Warning.setWarning(Project.getusername(connection, Reg_id),Message, type); 
+			return "Successfuly set";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return "";
+	}
+	
+	@GET
+	@Path("/GetFeeds")
+	public String getWarning(){
+		return Warning.getWarning();
+	}
+	
+	@GET
+	@Path("/GetFeeds")
+	public String isWarnignGenerated(){
+		return Warning.isWarning()?"yes":"no";
+	}
+	
+	@GET
+	@Path("/GetFeeds")
+	public String changeStatus(int reg_id,String status){
+		
+		System.out.println("get User called");
+		 Database database= new Database();
+		    Connection connection;
+			try {
+				
+				connection = database.Get_Connection();
+				return Project.changeStatus(connection,reg_id,status);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return "error";
+			}
+	}
+	
+	@GET
+	@Path("/GetFeeds")
+	public void clearWarning(){
+		
+		Warning.removeWarning();
+	}
+	
+	
+	
+	
+	
 
 }

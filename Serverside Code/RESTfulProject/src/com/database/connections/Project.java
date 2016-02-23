@@ -183,5 +183,37 @@ public class Project {
 		}	
 		return null;
 	}
+	public static String getusername(Connection connection, int reg_id) {
+		PreparedStatement ps;
+		try {
+			System.out.println("reg_id->"+reg_id);
+			ps = connection.prepareStatement("Select * from User where reg_id="+reg_id);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			return   rs.getString("first_name")+' '+rs.getString("last_name");
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}	
+		return "unregistered user";
+	}
+	public static String changeStatus(Connection connection,int reg_id, String status) {
+		PreparedStatement ps;
+		try {
+			System.out.println("reg_id->"+reg_id);
+			ps = connection.prepareStatement("UPDATE User SET status = ? where reg_id="+reg_id);
+			ps.setString(1, status);
+			Boolean rs = ps.execute();
+			return "Success";
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return e.getMessage();
+		}	
+	}
 	
 }

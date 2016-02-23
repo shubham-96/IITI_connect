@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
-        ((RelativeLayout)findViewById(R.id.rl)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.rl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences sp = getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE);
@@ -52,8 +52,8 @@ public class MainActivity extends Activity {
 
                 } else {
                     //open Home
-                    Toast.makeText(MainActivity.this, "HOME HOME HOME " + reg_id, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    //Toast.makeText(MainActivity.this, "HOME HOME HOME " + reg_id, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
                 }
 

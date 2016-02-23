@@ -1,5 +1,7 @@
 package com.kalyan0510.root.iiticonnect;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,12 +31,14 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 
 public class ProfileActivity extends AppCompatActivity {
     Uri selectedImageUri;
-    String selectedImagePath;
+    String selectedImagePath,status;
     ImageView iv;
     TextView un , fn , ln ,Ml,St;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,8 +49,21 @@ public class ProfileActivity extends AppCompatActivity {
         ln = (TextView)findViewById(R.id.lnameTv);
         Ml =(TextView)findViewById(R.id.mailTv);
         St = (TextView)findViewById(R.id.statusTv);
+        Ml.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+            }
+        });
+        findViewById(R.id.changestatus).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent i =new Intent(getApplicationContext(),changeStatusActivity.class);
+                i.putExtra("status",St.getText().toString());
+                startActivity(i);
 
-
+            }
+        });
         findViewById(R.id.editbutton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,12 +82,44 @@ public class ProfileActivity extends AppCompatActivity {
         });
         getdp(getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE).getInt("reg_id", 0));
         new getusertask().execute(getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE).getInt("reg_id", 0));
+        findViewById(R.id.alarmset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.SECOND, 1);
+
+                Intent intent = new Intent(getBaseContext(), RecursiveReceiver.class);
+                PendingIntent pendingIntent =
+                        PendingIntent.getBroadcast(getBaseContext(),
+                                1, intent, PendingIntent.FLAG_ONE_SHOT);
+                AlarmManager alarmManager =
+                        (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                    alarmManager.set(AlarmManager.RTC_WAKEUP,
+                            cal.getTimeInMillis(), pendingIntent);
+                    Toast.makeText(getBaseContext(),
+                            "Broadcast Started",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP,
+                            cal.getTimeInMillis(), pendingIntent);
+                }
+            }
+        });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //getdp(getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE).getInt("reg_id", 0));
+        new getusertask().execute(getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE).getInt("reg_id", 0));
+    }
+
     public  void getdp(int reg_id) {
 
         new getdptask().execute(reg_id);
     }
-    public void setprofilepic(int regid, Uri selectedimgURI){
+    public void setprofilepic( Uri selectedimgURI){
         new setprofilepictask().execute(selectedimgURI);
     }
 
@@ -81,13 +131,9 @@ public class ProfileActivity extends AppCompatActivity {
                 selectedImageUri = data.getData();
                 selectedImagePath = getPath(selectedImageUri);
                 if (selectedImagePath == null)
-                  Toast.makeText(getApplicationContext(),"path null",Toast.LENGTH_LONG).show();
-                if (selectedImagePath == null)
                     return;
-                //Toast.makeText(getApplicationContext(), selectedImagePath, Toast.LENGTH_LONG).show();
                 iv.setImageURI(selectedImageUri);
-                setprofilepic(getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE).
-                        getInt(Utilities.SharesPresfKeys.regid, 0), selectedImageUri);
+                setprofilepic( selectedImageUri);
             }
         }
     }
@@ -96,6 +142,7 @@ public class ProfileActivity extends AppCompatActivity {
             return null;
         return uri.getPath();
     }
+    ////////////////////////DOWNLOAD PROFILE PICTURE//////////////////////////
     class getdptask extends AsyncTask<Integer,String ,String> {
         String result;
         @Override
@@ -105,7 +152,6 @@ public class ProfileActivity extends AppCompatActivity {
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 SoapObject request = new SoapObject(Utilities.connection.NAMESPACE, Utilities.connection.method_names.getdp);
                 request.addProperty("reg_id", params[0]);
-                //request.addProperty("password", params[1]);
                 envelope.bodyOut = request;
                 HttpTransportSE transport = new HttpTransportSE(Utilities.connection.url+Utilities.connection.x+Utilities.connection.exs);
                 try {
@@ -141,7 +187,7 @@ public class ProfileActivity extends AppCompatActivity {
             super.onPostExecute(s);
         }
     }
-    /////////////////////////////GET USER///////////////////////////////////
+    /////////////////////////////GET USER OBJECT///////////////////////////////////
 
      class getusertask extends AsyncTask<Integer, String,String>{
         String result;
@@ -177,7 +223,6 @@ public class ProfileActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String  s) {
             User u = new Gson().fromJson(s,User.class);
-            //Toast.makeText(getApplicationContext(), u.getReg_id()+u.getUsername()+u.getMail(), Toast.LENGTH_SHORT).show();
             un.setText(u.getUsername());
             fn.setText(u.getFirst_name());
             ln.setText(u.getLast_name());
@@ -186,7 +231,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-
+    //////////////////////////SEND PROFILE PIC TO DATABASE/////////////////////////////////////////////////////
     class setprofilepictask extends AsyncTask<Uri,String,String> {
          String result;
 
@@ -217,10 +262,10 @@ public class ProfileActivity extends AppCompatActivity {
                      transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX + Utilities.connection.method_names.changedp, envelope);
                  } catch (IOException e) {
                      e.printStackTrace();
-                     return e.getMessage() + "xxxxxx";
+                     return e.getMessage();
                  } catch (XmlPullParserException e) {
                      e.printStackTrace();
-                     return e.getMessage() + "yyyyyy";
+                     return e.getMessage();
                  }
                  result = envelope.getResponse().toString();
                  if (envelope.bodyIn != null) {
@@ -230,10 +275,10 @@ public class ProfileActivity extends AppCompatActivity {
                  return result;
              } catch (IOException e) {
                  e.printStackTrace();
-                 return e.getMessage() + "zzzzzzz";
+                 return e.getMessage() ;
              } catch (Exception e) {
                  e.printStackTrace();
-                 result = e.getMessage() + "wwwwwww";
+                 result = e.getMessage() ;
              }
              return "no result sorry";
 
