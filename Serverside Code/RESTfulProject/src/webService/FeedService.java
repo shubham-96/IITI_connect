@@ -7,6 +7,7 @@ import javax.ws.rs.Path;
 
 import com.database.connections.Database;
 import com.database.connections.Project;
+import com.datastructures.SOS;
 import com.datastructures.User;
 import com.datastructures.Warning;
 import com.google.gson.Gson;
@@ -209,6 +210,100 @@ public class FeedService {
 	
 	
 	
+	
+	
+	@GET
+	@Path("/GetFeeds")
+	public String setSOS(int Reg_id,String Message,String type){
+		
+		
+		
+		Database database= new Database();
+	    Connection connection;
+		try {
+			
+			connection = database.Get_Connection();
+			System.out.println("Warning set");
+			SOS.setSOS(Project.getusername(connection, Reg_id),Message, type); 
+			return "Successfuly set";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return "";
+	}
+	
+	@GET
+	@Path("/GetFeeds")
+	public String getSOS(){
+		return SOS.getSOS();
+	}
+	
+	@GET
+	@Path("/GetFeeds")
+	public String isSOSGenerated(){
+		return SOS.isSOS()?"yes":"no";
+	}
+	
+	
+	@GET
+	@Path("/GetFeeds")
+	public void clearSOS(){
+		
+		SOS.removeSOS();
+	}
+	@GET
+	@Path("/GetFeeds")
+	public boolean wasMacSet(String mac){
+		Database database= new Database();
+	    Connection connection;
+		try {
+			
+			connection = database.Get_Connection();
+			return Project.wasMacset(connection,mac);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return false;
+	}
+	@GET
+	@Path("/GetFeeds")
+	public boolean setAddress(String address,String mac,int reg_id){
+		Database database= new Database();
+	    Connection connection;
+		try {
+			
+			connection = database.Get_Connection();
+			return Project.setAddress(connection, reg_id, mac, address);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		System.out.println("Error in set Address");
+		return true;
+	}
+	@GET
+	@Path("/GetFeeds")
+	public String getAddress(String mac){
+		Database database= new Database();
+	    Connection connection;
+		try {
+			
+			connection = database.Get_Connection();
+			return Project.getAddress(connection, mac);
+	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		System.out.println("Error in get Address");
+		return "fail";
+	}
 	
 
 }
