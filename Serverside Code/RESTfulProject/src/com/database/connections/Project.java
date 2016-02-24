@@ -215,5 +215,57 @@ public class Project {
 			return e.getMessage();
 		}	
 	}
+	public static boolean wasMacset(Connection connection, String mac) {
+		PreparedStatement ps;
+		try {
+			ps = connection.prepareStatement("select * from MnA where mac=\""+mac+"\"");
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			String address = rs.getString("address");
+			
+			if(address.equals(""))
+				return false;
+			else
+				return true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}	
+	}
+	public static String getAddress(Connection connection, String mac) {
+		PreparedStatement ps;
+		try {
+			ps = connection.prepareStatement("select * from MnA where mac=\""+mac+"\"");
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			String address = rs.getString("address");
+			
+			return ""+address;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "failure";
+		}	
+	}
+	public static boolean setAddress(Connection connection, int reg_id, String mac,String address) {
+		PreparedStatement ps;
+		try {	
+			
+			ps = connection.prepareStatement("Delete from MnA where mac=\""+mac+"\"");
+			
+			if(!ps.execute())
+			ps = connection.prepareStatement("Insert into MnA values ( "+"\""+mac+"\""+","+"\""+address+"\""+",\""+Project.getusername(connection, reg_id)+"\")");
+			return  ps.execute();
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return true;
+		}	
+	}
 	
 }

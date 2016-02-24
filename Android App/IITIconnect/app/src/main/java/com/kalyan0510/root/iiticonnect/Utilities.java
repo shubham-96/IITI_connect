@@ -7,7 +7,9 @@ import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.widget.Toast;
@@ -24,14 +26,14 @@ import java.io.IOException;
 
 public class Utilities {
     public static Context context;
-
+    public static final String Wifiname="\"D-Link\"";
 
     public class connection{
         public static final String NAMESPACE = "http://webService";
         public static final String exs="/RESTfulProject/services/FeedService?wsdl";
         public static final String SOAP_PREFIX = "/";
-        public static  final String url= "http://192.168.";
-        public static final String x = "1.7";
+        public static  final String url= "http://";
+        public static final String x = "192.168.1.7";
         public class method_names{
             public static final String signup = "signup";
             public static final String login = "login";
@@ -42,10 +44,15 @@ public class Utilities {
         }
 
     }
+    public static boolean isOncampusWifi(Context c){
+        return getwifiname(c).equals(Wifiname);
+    }
     public static User currentUser = new User();
     public class SharesPresfKeys{
         public static final String key = "xmotiv0510";
         public static final String regid = "reg_id";
+        public  static final String name = "full_name";
+
     }
 
     public static boolean isNetworkAvailable(Context ctx)
@@ -69,7 +76,20 @@ public class Utilities {
         context  = c;
         new getdptask().execute(reg_id);
     }
-
+    public static String getwifimac(Context contexttemp){
+        WifiManager wm = (WifiManager)contexttemp.getSystemService(Context.WIFI_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return wm.getConnectionInfo().getBSSID();//+" "+wm.getConnectionInfo().getFrequency()+" "+wm.getConnectionInfo().getLinkSpeed();
+        }
+        else return wm.getConnectionInfo().getBSSID();//+"  "+wm.getConnectionInfo().getLinkSpeed();
+    }
+    public static String getwifiname(Context contexttemp){
+        WifiManager wm = (WifiManager)contexttemp.getSystemService(Context.WIFI_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return wm.getConnectionInfo().getSSID();//+" "+wm.getConnectionInfo().getFrequency()+" "+wm.getConnectionInfo().getLinkSpeed();
+        }
+        else return wm.getConnectionInfo().getSSID();//+"  "+wm.getConnectionInfo().getLinkSpeed();
+    }
 
     static class getdptask extends AsyncTask<Integer,String ,String>{
         String result;

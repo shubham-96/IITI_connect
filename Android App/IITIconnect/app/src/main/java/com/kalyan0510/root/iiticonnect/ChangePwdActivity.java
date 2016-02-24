@@ -27,6 +27,11 @@ public class ChangePwdActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!Utilities.isOncampusWifi(getApplicationContext())){
+            Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_change_pwd);
         op= (EditText)findViewById(R.id.oldp);
         np = (EditText)findViewById(R.id.newp);

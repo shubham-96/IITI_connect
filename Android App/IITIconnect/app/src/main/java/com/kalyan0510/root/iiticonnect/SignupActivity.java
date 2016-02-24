@@ -29,6 +29,10 @@ public class SignupActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!Utilities.isOncampusWifi(getApplicationContext())){
+                    Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String fn = firstName.getText().toString().trim();
                 String ln = lastName.getText().toString().trim();
                 String un = username.getText().toString().trim();
@@ -39,6 +43,7 @@ public class SignupActivity extends AppCompatActivity {
                 else if(!tnc.isChecked()){
                     Toast.makeText(SignupActivity.this, "Agree to the terms and conditions ", Toast.LENGTH_SHORT).show();
                 }else {
+
                     Utilities.signup(getApplicationContext(),fn,ln,un,m);
                 }
             }

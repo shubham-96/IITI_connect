@@ -4,6 +4,28 @@
 Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://webService" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="setAddress">
+    <complexType>
+     <sequence>
+      <element name="address" type="xsd:string"/>
+      <element name="mac" type="xsd:string"/>
+      <element name="reg_id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setAddressResponse">
+    <complexType>
+     <sequence>
+      <element name="setAddressReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="clearSOS">
+    <complexType/>
+   </element>
+   <element name="clearSOSResponse">
+    <complexType/>
+   </element>
    <element name="signup">
     <complexType>
      <sequence>
@@ -36,49 +58,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="forgotpassword">
-    <complexType>
-     <sequence>
-      <element name="entity" type="xsd:string"/>
-      <element name="value" type="xsd:string"/>
-     </sequence>
-    </complexType>
+   <element name="isSOSGenerated">
+    <complexType/>
    </element>
-   <element name="forgotpasswordResponse">
+   <element name="isSOSGeneratedResponse">
     <complexType>
      <sequence>
-      <element name="forgotpasswordReturn" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="changepassword">
-    <complexType>
-     <sequence>
-      <element name="Reg_id" type="xsd:int"/>
-      <element name="oldpass" type="xsd:string"/>
-      <element name="newpass" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="changepasswordResponse">
-    <complexType>
-     <sequence>
-      <element name="changepasswordReturn" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="changedp">
-    <complexType>
-     <sequence>
-      <element name="Reg_id" type="xsd:int"/>
-      <element name="x" type="xsd:string"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="changedpResponse">
-    <complexType>
-     <sequence>
-      <element name="changedpReturn" type="xsd:boolean"/>
+      <element name="isSOSGeneratedReturn" type="xsd:string"/>
      </sequence>
     </complexType>
    </element>
@@ -95,6 +81,46 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexType>
      <sequence>
       <element name="setWarningReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="wasMacSet">
+    <complexType>
+     <sequence>
+      <element name="mac" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="wasMacSetResponse">
+    <complexType>
+     <sequence>
+      <element name="wasMacSetReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setSOS">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+      <element name="Message" type="xsd:string"/>
+      <element name="type" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="setSOSResponse">
+    <complexType>
+     <sequence>
+      <element name="setSOSReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getSOS">
+    <complexType/>
+   </element>
+   <element name="getSOSResponse">
+    <complexType>
+     <sequence>
+      <element name="getSOSReturn" type="xsd:string"/>
      </sequence>
     </complexType>
    </element>
@@ -146,12 +172,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
-   <element name="clearWarning">
-    <complexType/>
-   </element>
-   <element name="clearWarningResponse">
-    <complexType/>
-   </element>
    <element name="changeStatus">
     <complexType>
      <sequence>
@@ -167,12 +187,206 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
+   <element name="clearWarning">
+    <complexType/>
+   </element>
+   <element name="clearWarningResponse">
+    <complexType/>
+   </element>
+   <element name="forgotpassword">
+    <complexType>
+     <sequence>
+      <element name="entity" type="xsd:string"/>
+      <element name="value" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="forgotpasswordResponse">
+    <complexType>
+     <sequence>
+      <element name="forgotpasswordReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changepassword">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+      <element name="oldpass" type="xsd:string"/>
+      <element name="newpass" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changepasswordResponse">
+    <complexType>
+     <sequence>
+      <element name="changepasswordReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changedp">
+    <complexType>
+     <sequence>
+      <element name="Reg_id" type="xsd:int"/>
+      <element name="x" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changedpResponse">
+    <complexType>
+     <sequence>
+      <element name="changedpReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAddress">
+    <complexType>
+     <sequence>
+      <element name="mac" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAddressResponse">
+    <complexType>
+     <sequence>
+      <element name="getAddressReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
   </schema>
  </wsdl:types>
 
    <wsdl:message name="clearWarningRequest">
 
       <wsdl:part element="impl:clearWarning" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="signupResponse">
+
+      <wsdl:part element="impl:signupResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="clearSOSRequest">
+
+      <wsdl:part element="impl:clearSOS" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAddressResponse">
+
+      <wsdl:part element="impl:getAddressResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changeStatusResponse">
+
+      <wsdl:part element="impl:changeStatusResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changedpRequest">
+
+      <wsdl:part element="impl:changedp" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setSOSRequest">
+
+      <wsdl:part element="impl:setSOS" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changepasswordResponse">
+
+      <wsdl:part element="impl:changepasswordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="wasMacSetRequest">
+
+      <wsdl:part element="impl:wasMacSet" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="forgotpasswordResponse">
+
+      <wsdl:part element="impl:forgotpasswordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="setWarningResponse">
+
+      <wsdl:part element="impl:setWarningResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="loginResponse">
+
+      <wsdl:part element="impl:loginResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getWarningRequest">
+
+      <wsdl:part element="impl:getWarning" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAddressRequest">
+
+      <wsdl:part element="impl:getAddress" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="forgotpasswordRequest">
+
+      <wsdl:part element="impl:forgotpassword" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getSOSResponse">
+
+      <wsdl:part element="impl:getSOSResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changepasswordRequest">
+
+      <wsdl:part element="impl:changepassword" name="parameters">
 
       </wsdl:part>
 
@@ -210,17 +424,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="signupResponse">
+   <wsdl:message name="clearSOSResponse">
 
-      <wsdl:part element="impl:signupResponse" name="parameters">
+      <wsdl:part element="impl:clearSOSResponse" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="changeStatusResponse">
+   <wsdl:message name="setAddressRequest">
 
-      <wsdl:part element="impl:changeStatusResponse" name="parameters">
+      <wsdl:part element="impl:setAddress" name="parameters">
 
       </wsdl:part>
 
@@ -242,6 +456,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="isSOSGeneratedRequest">
+
+      <wsdl:part element="impl:isSOSGenerated" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
    <wsdl:message name="clearWarningResponse">
 
       <wsdl:part element="impl:clearWarningResponse" name="parameters">
@@ -258,25 +480,33 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="changedpRequest">
+   <wsdl:message name="wasMacSetResponse">
 
-      <wsdl:part element="impl:changedp" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="changepasswordResponse">
-
-      <wsdl:part element="impl:changepasswordResponse" name="parameters">
+      <wsdl:part element="impl:wasMacSetResponse" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="getuserResponse">
+   <wsdl:message name="setSOSResponse">
 
-      <wsdl:part element="impl:getuserResponse" name="parameters">
+      <wsdl:part element="impl:setSOSResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getSOSRequest">
+
+      <wsdl:part element="impl:getSOS" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="isSOSGeneratedResponse">
+
+      <wsdl:part element="impl:isSOSGeneratedResponse" name="parameters">
 
       </wsdl:part>
 
@@ -290,41 +520,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="forgotpasswordResponse">
+   <wsdl:message name="getuserResponse">
 
-      <wsdl:part element="impl:forgotpasswordResponse" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="setWarningResponse">
-
-      <wsdl:part element="impl:setWarningResponse" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="getWarningRequest">
-
-      <wsdl:part element="impl:getWarning" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="loginResponse">
-
-      <wsdl:part element="impl:loginResponse" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="forgotpasswordRequest">
-
-      <wsdl:part element="impl:forgotpassword" name="parameters">
+      <wsdl:part element="impl:getuserResponse" name="parameters">
 
       </wsdl:part>
 
@@ -354,15 +552,39 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="changepasswordRequest">
+   <wsdl:message name="setAddressResponse">
 
-      <wsdl:part element="impl:changepassword" name="parameters">
+      <wsdl:part element="impl:setAddressResponse" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
    <wsdl:portType name="FeedService">
+
+      <wsdl:operation name="setAddress">
+
+         <wsdl:input message="impl:setAddressRequest" name="setAddressRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setAddressResponse" name="setAddressResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="clearSOS">
+
+         <wsdl:input message="impl:clearSOSRequest" name="clearSOSRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:clearSOSResponse" name="clearSOSResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="signup">
 
@@ -388,37 +610,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="forgotpassword">
+      <wsdl:operation name="isSOSGenerated">
 
-         <wsdl:input message="impl:forgotpasswordRequest" name="forgotpasswordRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:forgotpasswordResponse" name="forgotpasswordResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="changepassword">
-
-         <wsdl:input message="impl:changepasswordRequest" name="changepasswordRequest">
+         <wsdl:input message="impl:isSOSGeneratedRequest" name="isSOSGeneratedRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:changepasswordResponse" name="changepasswordResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="changedp">
-
-         <wsdl:input message="impl:changedpRequest" name="changedpRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:changedpResponse" name="changedpResponse">
+         <wsdl:output message="impl:isSOSGeneratedResponse" name="isSOSGeneratedResponse">
 
        </wsdl:output>
 
@@ -431,6 +629,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:setWarningResponse" name="setWarningResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="wasMacSet">
+
+         <wsdl:input message="impl:wasMacSetRequest" name="wasMacSetRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:wasMacSetResponse" name="wasMacSetResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setSOS">
+
+         <wsdl:input message="impl:setSOSRequest" name="setSOSRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:setSOSResponse" name="setSOSResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getSOS">
+
+         <wsdl:input message="impl:getSOSRequest" name="getSOSRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getSOSResponse" name="getSOSResponse">
 
        </wsdl:output>
 
@@ -484,18 +718,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="clearWarning">
-
-         <wsdl:input message="impl:clearWarningRequest" name="clearWarningRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:clearWarningResponse" name="clearWarningResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="changeStatus">
 
          <wsdl:input message="impl:changeStatusRequest" name="changeStatusRequest">
@@ -508,11 +730,107 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="clearWarning">
+
+         <wsdl:input message="impl:clearWarningRequest" name="clearWarningRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:clearWarningResponse" name="clearWarningResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="forgotpassword">
+
+         <wsdl:input message="impl:forgotpasswordRequest" name="forgotpasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:forgotpasswordResponse" name="forgotpasswordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changepassword">
+
+         <wsdl:input message="impl:changepasswordRequest" name="changepasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:changepasswordResponse" name="changepasswordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changedp">
+
+         <wsdl:input message="impl:changedpRequest" name="changedpRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:changedpResponse" name="changedpResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAddress">
+
+         <wsdl:input message="impl:getAddressRequest" name="getAddressRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAddressResponse" name="getAddressResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
    </wsdl:portType>
 
    <wsdl:binding name="FeedServiceSoapBinding" type="impl:FeedService">
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="setAddress">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setAddressRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setAddressResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="clearSOS">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="clearSOSRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="clearSOSResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="signup">
 
@@ -550,53 +868,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="forgotpassword">
+      <wsdl:operation name="isSOSGenerated">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="forgotpasswordRequest">
+         <wsdl:input name="isSOSGeneratedRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="forgotpasswordResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="changepassword">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="changepasswordRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="changepasswordResponse">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="changedp">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="changedpRequest">
-
-            <wsdlsoap:body use="literal"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="changedpResponse">
+         <wsdl:output name="isSOSGeneratedResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -615,6 +897,60 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="setWarningResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="wasMacSet">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="wasMacSetRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="wasMacSetResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setSOS">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setSOSRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setSOSResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getSOS">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getSOSRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getSOSResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -694,6 +1030,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="changeStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="changeStatusRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="changeStatusResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="clearWarning">
 
          <wsdlsoap:operation soapAction=""/>
@@ -712,17 +1066,71 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="changeStatus">
+      <wsdl:operation name="forgotpassword">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="changeStatusRequest">
+         <wsdl:input name="forgotpasswordRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="changeStatusResponse">
+         <wsdl:output name="forgotpasswordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changepassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="changepasswordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="changepasswordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changedp">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="changedpRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="changedpResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAddress">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAddressRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAddressResponse">
 
             <wsdlsoap:body use="literal"/>
 

@@ -37,6 +37,10 @@ public class LoginActivity extends AppCompatActivity {
         fp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!Utilities.isOncampusWifi(getApplicationContext())){
+                    Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if(un.getText().toString().trim().equals("")){
                     Toast.makeText(LoginActivity.this, "please enter Valid username", Toast.LENGTH_SHORT).show();
                     return;
@@ -55,6 +59,10 @@ public class LoginActivity extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!Utilities.isOncampusWifi(getApplicationContext())){
+                    Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 String u = un.getText().toString().trim(),p = pa.getText().toString().trim();
                 if(u.equals("")||p.equals("")){
                     Toast.makeText(LoginActivity.this, "please enter username and password", Toast.LENGTH_SHORT).show();
@@ -71,6 +79,10 @@ public class LoginActivity extends AppCompatActivity {
         (findViewById(R.id.noacc)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!Utilities.isOncampusWifi(getApplicationContext())){
+                    Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent it = new Intent(getApplicationContext(),SignupActivity.class);
 
                 startActivity(it);
@@ -177,8 +189,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putInt(Utilities.SharesPresfKeys.regid,Integer.parseInt(s));
                     editor.commit();
-                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), "Entering Home", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(),HomeActivity.class));
                 }
 
                 catch(Exception e){
