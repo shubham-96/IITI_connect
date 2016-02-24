@@ -58,6 +58,10 @@ public class ProfileActivity extends AppCompatActivity {
         findViewById(R.id.changestatus).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!Utilities.isOncampusWifi(getApplicationContext())){
+                    Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                Intent i =new Intent(getApplicationContext(),changeStatusActivity.class);
                 i.putExtra("status",St.getText().toString());
                 startActivity(i);
@@ -67,6 +71,10 @@ public class ProfileActivity extends AppCompatActivity {
         findViewById(R.id.editbutton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!Utilities.isOncampusWifi(getApplicationContext())){
+                    Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -76,10 +84,18 @@ public class ProfileActivity extends AppCompatActivity {
         findViewById(R.id.changepass).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!Utilities.isOncampusWifi(getApplicationContext())){
+                    Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Intent i = new Intent(getApplicationContext(),ChangePwdActivity.class);
                 startActivity(i);
             }
         });
+        if(!Utilities.isOncampusWifi(getApplicationContext())){
+            Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+            return;
+        }
         getdp(getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE).getInt("reg_id", 0));
         new getusertask().execute(getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE).getInt("reg_id", 0));
         findViewById(R.id.alarmset).setOnClickListener(new View.OnClickListener() {
@@ -112,6 +128,10 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //getdp(getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE).getInt("reg_id", 0));
+        if(!Utilities.isOncampusWifi(getApplicationContext())){
+            Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+            return;
+        }
         new getusertask().execute(getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE).getInt("reg_id", 0));
     }
 
@@ -228,6 +248,11 @@ public class ProfileActivity extends AppCompatActivity {
             ln.setText(u.getLast_name());
             St.setText(u.getStatus());
             Ml.setText(u.getMail());
+            Utilities.currentUser= u;
+            SharedPreferences sp =getSharedPreferences(Utilities.SharesPresfKeys.key,Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("full_name",u.getFirst_name()+" "+u.getLast_name());
+            editor.commit();
         }
     }
 

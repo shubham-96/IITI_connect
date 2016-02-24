@@ -1,6 +1,7 @@
 package com.kalyan0510.root.iiticonnect;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,6 +33,7 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+import org.w3c.dom.Text;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
@@ -53,14 +56,19 @@ public class HomeActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     static  Context context;
     static int reg_id;
+    static TextView curLocat;
+    static String Loc="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         context = getApplicationContext();
         setContentView(R.layout.activity_home);
         reg_id = getSharedPreferences(Utilities.SharesPresfKeys.key,Context.MODE_PRIVATE).
                 getInt(Utilities.SharesPresfKeys.regid,0);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("IITI Connect");
+        toolbar.setSubtitle(getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE).getString(Utilities.SharesPresfKeys.name,"subtitle here"));
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -101,6 +109,10 @@ public class HomeActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if(id==R.id.action_profile){
+            startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+            return false;
         }
 
         return super.onOptionsItemSelected(item);
@@ -173,9 +185,12 @@ public class HomeActivity extends AppCompatActivity {
             rootView.findViewById(R.id.sendAlertBut).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    new sendAlerttask().execute(reg_id+"",descrEdt.getText().toString().trim(),
-                            ((RadioButton)rootView.findViewById(typeRadioGroup.getCheckedRadioButtonId())).getText().toString());
+                    if(!Utilities.isOncampusWifi(context)){
+                        Toast.makeText(context, "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    new sendAlerttask().execute(reg_id + "", descrEdt.getText().toString().trim(),
+                            ((RadioButton) rootView.findViewById(typeRadioGroup.getCheckedRadioButtonId())).getText().toString());
                     //Toast.makeText(context, ""+((RadioButton)rootView.findViewById(typeRadioGroup.getCheckedRadioButtonId())).getText(), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -184,6 +199,68 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    public static class SOSFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public SOSFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static SOSFragment newInstance(int sectionNumber) {
+
+            SOSFragment fragment = new SOSFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            final View rootView = inflater.inflate(R.layout.fragment_sos, container, false);
+            final EditText manLoc  = (EditText)rootView.findViewById(R.id.LocManEdt);
+            final RadioGroup typeRG = (RadioGroup)rootView.findViewById(R.id.helptype);
+            final RadioGroup LocRG = (RadioGroup)rootView.findViewById(R.id.helpLoc);
+            final TextView curloc  = curLocat = (TextView)rootView.findViewById(R.id.curLoc);
+            if(Utilities.isOncampusWifi(context))
+            new getLoctask().execute();
+            //curloc.setText(Loc+"");
+           // Toast.makeText(context, "SOS FRAGMENT LOADED", Toast.LENGTH_SHORT).show();
+            rootView.findViewById(R.id.sendSOS).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!Utilities.isOncampusWifi(context)){
+                        Toast.makeText(context, "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String Location = curloc.getText().toString().trim();
+                    if(Location.equals("Not Recognised")){
+                        if(manLoc.getText().toString().trim().equals("")){
+                            Toast.makeText(context, "Empty Location Please enter Location", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        Location = manLoc.getText().toString().trim();
+                    }
+                    if(LocRG.getCheckedRadioButtonId()==R.id.msa){
+                        Location= manLoc.getText().toString().trim();
+                    }
+                    new sendSOStask().execute(reg_id+"",Location,
+                            ((RadioButton)rootView.findViewById(typeRG.getCheckedRadioButtonId())).getText().toString());
+                    //Toast.makeText(context, ""+((RadioButton)rootView.findViewById(typeRadioGroup.getCheckedRadioButtonId())).getText(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            return rootView;
+        }
+    }
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
@@ -200,7 +277,9 @@ public class HomeActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             if(position==0)
                 return WarningFragment.newInstance(1);
-            else
+            else if(position==1){
+                return SOSFragment.newInstance(2);
+            }else
                 return PlaceholderFragment.newInstance(position+1);
 
         }
@@ -278,5 +357,88 @@ public class HomeActivity extends AppCompatActivity {
             Toast.makeText(context, ""+s, Toast.LENGTH_SHORT).show();
         }
     }
+    //////////////////SEND  SOS//////////////////////
+    static class sendSOStask extends AsyncTask<String , String,String> {
+        String result;
+        protected String doInBackground(String... params) {
+            try {
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                SoapObject request = new SoapObject(Utilities.connection.NAMESPACE,"setSOS");
+                request.addProperty("reg_id", reg_id);
+                request.addProperty("message", params[1]);
+                request.addProperty("type", params[2]);
+                envelope.bodyOut = request;
+                HttpTransportSE transport = new HttpTransportSE(Utilities.connection.url+Utilities.connection.x+Utilities.connection.exs);
+                try {
+                    transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX +"setSOS", envelope);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return e.getMessage();
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace();
+                    return e.getMessage();
+                }
+                result=envelope.getResponse().toString();
+                if (envelope.bodyIn != null) {
+                    SoapPrimitive resultSOAP = (SoapPrimitive) ((SoapObject) envelope.bodyIn).getProperty(0);
+                    result=resultSOAP.toString();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                result = e.getMessage();
+            }
+            return result;
+        }
+
+
+        @Override
+        protected void onPostExecute(String  s) {
+            Toast.makeText(context, "Send SOS-> "+s, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //////////////////GET LOCATION///////////////////////////////
+    static class getLoctask extends AsyncTask<String , String,String> {
+        String result;
+        protected String doInBackground(String... params) {
+            try {
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                SoapObject request = new SoapObject(Utilities.connection.NAMESPACE,"getAddress");
+                request.addProperty("mac", Utilities.getwifimac(context));
+                envelope.bodyOut = request;
+                HttpTransportSE transport = new HttpTransportSE(Utilities.connection.url+Utilities.connection.x+Utilities.connection.exs);
+                try {
+                    transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX +"getAddress", envelope);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return e.getMessage();
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace();
+                    return e.getMessage();
+                }
+                result=envelope.getResponse().toString();
+                if (envelope.bodyIn != null) {
+                    SoapPrimitive resultSOAP = (SoapPrimitive) ((SoapObject) envelope.bodyIn).getProperty(0);
+                    result=resultSOAP.toString();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                result = e.getMessage();
+            }
+            return result;
+        }
+
+
+        @Override
+        protected void onPostExecute(String  s) {
+            if(s.equals("fail")){
+                return;
+            }
+            Loc = s;
+            curLocat.setText(s+"");
+        }
+    }
+
 
 }
+

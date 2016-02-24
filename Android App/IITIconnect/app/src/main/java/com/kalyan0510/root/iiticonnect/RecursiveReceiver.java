@@ -51,12 +51,19 @@ import org.xmlpull.v1.XmlPullParserException;
 public class RecursiveReceiver extends WakefulBroadcastReceiver {
 
     Context contextx;
+    public static boolean canNotifySOS=true;
+    public static boolean canNotifyWarning=true;
     @Override
     public void onReceive(Context context, Intent intent) {
+
         contextx = context;
         //WakeLocker.acquire(context);
-
+        if(!Utilities.isOncampusWifi(context)){
+            //Toast.makeText(context, "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+            return;
+        }
         new checkWarning().execute();
+        new checkSOS().execute();
         recursiveBroadcast(context);
         //WakeLocker.release();
     }
@@ -64,7 +71,7 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
     void recursiveBroadcast(Context context){
         Context bc = context;
         Context c = context;
-        int interval=15;
+        int interval=5;
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, interval);
         Intent xtent = new Intent(bc, RecursiveReceiver.class);
@@ -140,12 +147,93 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            System.out.println(s+"\n");
+            System.out.println(s + "\n");
             if(!s.equals("no")){
                 WakeLocker.acquire(contextx);
-                Toast.makeText(contextx, "Move your ass out of this building", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(contextx, "Move your ass out of this building", Toast.LENGTH_SHORT).show();
                 String[] x = s.split("`");
+                if(x.length>=3)
                 setcall(contextx,x[1],x[2]+" ",x[0],4);
+                else{
+                    setcall(contextx,"No description","no Message ","Idiot",4);
+                }
+
+                WakeLocker.release();
+
+            }
+        }
+    }
+    class checkSOS extends AsyncTask<String,String,String> {
+        String result;
+        protected String doInBackground(String... params) {
+            try {
+                SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                SoapObject request = new SoapObject(Utilities.connection.NAMESPACE, "isSOSGenerated");
+
+                envelope.bodyOut = request;
+                HttpTransportSE transport = new HttpTransportSE(Utilities.connection.url+Utilities.connection.x+Utilities.connection.exs);
+                try {
+                    transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX + "isSOSGenerated", envelope);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return e.getMessage();
+                } catch (XmlPullParserException e) {
+                    e.printStackTrace();
+                    return e.getMessage();
+                }
+                result=envelope.getResponse().toString();
+                if (envelope.bodyIn != null) {
+                    SoapPrimitive resultSOAP = (SoapPrimitive) ((SoapObject) envelope.bodyIn).getProperty(0);
+                    result=resultSOAP.toString();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                result = e.getMessage();
+            }
+            if(result.equals("no"))
+                return result;
+            else{
+                //get the Alert details
+                try{
+                    SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+                    SoapObject request = new SoapObject(Utilities.connection.NAMESPACE, "getSOS");
+                    envelope.bodyOut = request;
+                    HttpTransportSE transport = new HttpTransportSE(Utilities.connection.url+Utilities.connection.x+Utilities.connection.exs);
+                    try {
+                        transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX + "getSOS", envelope);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return e.getMessage();
+                    } catch (XmlPullParserException e) {
+                        e.printStackTrace();
+                        return e.getMessage();
+                    }
+                    result=envelope.getResponse().toString();
+                    if (envelope.bodyIn != null) {
+                        SoapPrimitive resultSOAP = (SoapPrimitive) ((SoapObject) envelope.bodyIn).getProperty(0);
+                        result=resultSOAP.toString();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    result = e.getMessage();
+                }
+                return result;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            System.out.println(s + "\n");
+            if(!s.equals("no")){
+                WakeLocker.acquire(contextx);
+                //Toast.makeText(contextx, "Help him", Toast.LENGTH_SHORT).show();
+                String[] x = s.split("`");
+                if(x.length>=3)
+                    setSOScall(contextx, x[1], x[2] + " ", x[0], 4);
+                else{
+                    setSOScall(contextx, "No description", "no Message ", "Idiot", 4);
+                }
 
                 WakeLocker.release();
 
@@ -154,7 +242,13 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
     }
     public void setcall(Context c,String descr,String type,String user,int id) {
         // Toast.makeText(this,"call", Toast.LENGTH_SHORT).show();
-
+        if(!canNotifyWarning){
+            return;
+        }
+        if(!Utilities.isOncampusWifi(c)){
+            //Toast.makeText(context, "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(c)
                 .setSmallIcon(R.mipmap.editw)
@@ -174,6 +268,59 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
                 (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
         int NOTIFICATION_ID = 100+id;
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                canNotifyWarning = false;
+                try {
+                    Thread.sleep(1000*50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                canNotifyWarning = true;
+            }
+        }).start();
+    }
+    public void setSOScall(Context c,String loc,String abt,String user,int id) {
+        // Toast.makeText(this,"call", Toast.LENGTH_SHORT).show();
+        if(!canNotifySOS){
+            return;
+        }
+        if(!Utilities.isOncampusWifi(c)){
+            //Toast.makeText(context, "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(c)
+                .setSmallIcon(R.mipmap.editw)
+                .setContentTitle(""+user+":help me")
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri);
+
+
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+        notificationBuilder.setStyle(inboxStyle);
+        inboxStyle.setBigContentTitle("from " + user);
+        inboxStyle.addLine("Location - " + loc);
+        inboxStyle.setSummaryText("message:" + abt);
+        notificationBuilder.setStyle(inboxStyle);
+
+        NotificationManager notificationManager =
+                (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+        int NOTIFICATION_ID = 103+id;
+        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                canNotifySOS = false;
+                try {
+                    Thread.sleep(1000*50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                canNotifySOS = true;
+            }
+        }).start();
     }
 
 

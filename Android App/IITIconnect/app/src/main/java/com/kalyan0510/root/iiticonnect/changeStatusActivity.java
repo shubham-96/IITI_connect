@@ -22,6 +22,11 @@ public class changeStatusActivity extends AppCompatActivity {
     EditText stEdt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(!Utilities.isOncampusWifi(getApplicationContext())){
+            Toast.makeText(getApplicationContext(), "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_status);
         stEdt = ((EditText)findViewById(R.id.statusEdtxt));
