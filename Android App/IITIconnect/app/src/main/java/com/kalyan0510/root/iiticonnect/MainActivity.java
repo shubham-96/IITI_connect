@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +51,9 @@ public class MainActivity extends Activity {
         context  = getApplicationContext();
         setContentView(R.layout.activity_main);
 
-
-        (findViewById(R.id.rl)).setOnClickListener(new View.OnClickListener() {
+        Log.w("x","In main");
+        //Toast.makeText(MainActivity.this, "Main", Toast.LENGTH_SHORT).show();
+       (findViewById(R.id.rl)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SharedPreferences sp = getSharedPreferences(Utilities.SharesPresfKeys.key, Context.MODE_PRIVATE);
@@ -84,16 +86,22 @@ public class MainActivity extends Activity {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             alarmManager.set(AlarmManager.RTC_WAKEUP,
                     cal.getTimeInMillis(), pendingIntent);
-            Toast.makeText(context,
+          /*  Toast.makeText(context,
                     "Broadcast Started",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show();*/
+
         } else {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,
                     cal.getTimeInMillis(), pendingIntent);
         }
 
-        if(Utilities.isOncampusWifi(context))
-        new checkmacregistered().execute();
+        if(Utilities.isOncampusWifi(context)){
+            Log.w("x","Calling check mac execute");
+            new checkmacregistered().execute();
+        }else {
+            Log.w("x","Skipped");
+        }
+           // Toast.makeText(MainActivity.this, "skipped", Toast.LENGTH_SHORT).show();
         //else
 
 
@@ -111,20 +119,23 @@ public class MainActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
             try {
+                Log.w("x","In mac check start");
                 SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
                 SoapObject request = new SoapObject(Utilities.connection.NAMESPACE,"wasMacSet");
                 request.addProperty("mac",Utilities.getwifimac(context));
                 envelope.bodyOut = request;
                 HttpTransportSE transport = new HttpTransportSE(Utilities.connection.url+Utilities.connection.x+Utilities.connection.exs);
+                Log.w("x","In mac check BEFORE TRANS.CALL");
                 try {
                     transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX +"wasMacSet", envelope);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return e.getMessage();
+                    return "error";
                 } catch (XmlPullParserException e) {
                     e.printStackTrace();
-                    return e.getMessage();
+                    return "error";
                 }
+                Log.w("x","In mac check After TRANS.CALL");
                 result=envelope.getResponse().toString();
                 if (envelope.bodyIn != null) {
                     SoapPrimitive resultSOAP = (SoapPrimitive) ((SoapObject) envelope.bodyIn).getProperty(0);
@@ -132,13 +143,23 @@ public class MainActivity extends Activity {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                result = e.getMessage();
+                result = "error";
             }
+            Log.w("x", "In mac check returning res " + result);
             return result;
         }
 
         @Override
         protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+           // Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+
+            if(s.equals("error")){
+                Toast.makeText(getApplicationContext(), "Server is currently down", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+           // Toast.makeText(getApplicationContext(), "Server runnong", Toast.LENGTH_SHORT).show();
             super.onPostExecute(s);
             if(s.equals("false")){
                // Toast.makeText(context, ""+s, Toast.LENGTH_SHORT).show();
@@ -182,10 +203,10 @@ public class MainActivity extends Activity {
                     transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX +"setAddress", envelope);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return e.getMessage();
+                    return "error";
                 } catch (XmlPullParserException e) {
                     e.printStackTrace();
-                    return e.getMessage();
+                    return "error";
                 }
                 result=envelope.getResponse().toString();
                 if (envelope.bodyIn != null) {
@@ -194,13 +215,18 @@ public class MainActivity extends Activity {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                result = e.getMessage();
+                result = "error";
             }
             return result;
         }
 
         @Override
         protected void onPostExecute(String s) {
+            if(s.equals("error")){
+                Toast.makeText(getApplicationContext(), "Server is currently down", Toast.LENGTH_SHORT).show();
+                return;
+            }
+           //    Toast.makeText(getApplicationContext(), "Server running", Toast.LENGTH_SHORT).show();
             super.onPostExecute(s);
             if(s.equals("false")){
                 Toast.makeText(context, "Thanks for helping", Toast.LENGTH_SHORT).show();

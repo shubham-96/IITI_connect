@@ -9,6 +9,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="SOS"
+        android:textSize="50dp"
+        android:textColor="#F00"
         android:id="@+id/textView3"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -24,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Help theres a fire"
-            android:id="@+id/fire"/>
+            android:id="@+id/help1"/>
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -76,7 +78,8 @@
         android:text="Current Location Detected"
         android:id="@+id/textView6"
         android:layout_below="@+id/sendSOS"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="false"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -85,6 +88,7 @@
         android:text="Not Recognised"
         android:id="@+id/curLoc"
         android:layout_below="@+id/textView6"
+        android:layout_alignParentRight="false"
         android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

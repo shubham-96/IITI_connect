@@ -99,10 +99,10 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
                     transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX + "isWarnignGenerated", envelope);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return e.getMessage();
+                    return "error";
                 } catch (XmlPullParserException e) {
                     e.printStackTrace();
-                    return e.getMessage();
+                    return "error";
                 }
                 result=envelope.getResponse().toString();
                 if (envelope.bodyIn != null) {
@@ -111,7 +111,7 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                result = e.getMessage();
+                result = "error";
             }
             if(result.equals("no"))
                 return result;
@@ -126,10 +126,10 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
                         transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX + "getWarning", envelope);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        return e.getMessage();
+                        return "error";
                     } catch (XmlPullParserException e) {
                         e.printStackTrace();
-                        return e.getMessage();
+                        return "error";
                     }
                     result=envelope.getResponse().toString();
                     if (envelope.bodyIn != null) {
@@ -138,7 +138,7 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    result = e.getMessage();
+                    result = "error";
                 }
                 return result;
             }
@@ -147,6 +147,9 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if(s.equals("error")){
+                return;
+            }
             System.out.println(s + "\n");
             if(!s.equals("no")){
                 WakeLocker.acquire(contextx);
@@ -176,10 +179,10 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
                     transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX + "isSOSGenerated", envelope);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    return e.getMessage();
+                    return "error";
                 } catch (XmlPullParserException e) {
                     e.printStackTrace();
-                    return e.getMessage();
+                    return "error";
                 }
                 result=envelope.getResponse().toString();
                 if (envelope.bodyIn != null) {
@@ -188,7 +191,7 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                result = e.getMessage();
+                result = "error";
             }
             if(result.equals("no"))
                 return result;
@@ -203,10 +206,10 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
                         transport.call(Utilities.connection.NAMESPACE + Utilities.connection.SOAP_PREFIX + "getSOS", envelope);
                     } catch (IOException e) {
                         e.printStackTrace();
-                        return e.getMessage();
+                        return "error";
                     } catch (XmlPullParserException e) {
                         e.printStackTrace();
-                        return e.getMessage();
+                        return "error";
                     }
                     result=envelope.getResponse().toString();
                     if (envelope.bodyIn != null) {
@@ -215,7 +218,7 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    result = e.getMessage();
+                    result = "error";
                 }
                 return result;
             }
@@ -224,6 +227,8 @@ public class RecursiveReceiver extends WakefulBroadcastReceiver {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            if (s.equals("error"))
+                return;
             System.out.println(s + "\n");
             if(!s.equals("no")){
                 WakeLocker.acquire(contextx);

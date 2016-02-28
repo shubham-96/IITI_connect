@@ -33,7 +33,7 @@ public class Utilities {
         public static final String exs="/RESTfulProject/services/FeedService?wsdl";
         public static final String SOAP_PREFIX = "/";
         public static  final String url= "http://";
-        public static final String x = "192.168.1.7";
+        public static final String x = "192.168.1.4";
         public class method_names{
             public static final String signup = "signup";
             public static final String login = "login";

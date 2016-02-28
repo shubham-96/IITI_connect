@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -181,10 +182,14 @@ public class HomeActivity extends AppCompatActivity {
             final View rootView = inflater.inflate(R.layout.fragment_warning, container, false);
             final EditText descrEdt  = (EditText)rootView.findViewById(R.id.descEdt);
             final RadioGroup typeRadioGroup = (RadioGroup)rootView.findViewById(R.id.typegroup);
-
+            typeRadioGroup.check(R.id.campusRad);
             rootView.findViewById(R.id.sendAlertBut).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(( rootView.findViewById(typeRadioGroup.getCheckedRadioButtonId()))==null){
+                        Log.w("x","afakjh");
+                        return;
+                    }
                     if(!Utilities.isOncampusWifi(context)){
                         Toast.makeText(context, "not connected to CAMPUS WIFI", Toast.LENGTH_SHORT).show();
                         return;
@@ -230,6 +235,8 @@ public class HomeActivity extends AppCompatActivity {
             final RadioGroup typeRG = (RadioGroup)rootView.findViewById(R.id.helptype);
             final RadioGroup LocRG = (RadioGroup)rootView.findViewById(R.id.helpLoc);
             final TextView curloc  = curLocat = (TextView)rootView.findViewById(R.id.curLoc);
+            typeRG.check(R.id.help1);
+            LocRG.check(R.id.rec);
             if(Utilities.isOncampusWifi(context))
             new getLoctask().execute();
             //curloc.setText(Loc+"");
